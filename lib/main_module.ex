@@ -7,14 +7,18 @@ defmodule GaiaProject.CLI do
   end
 
   defp parse_args(args) do
-    {opts, word, _} =
-      args
-      |> OptionParser.parse(switches: [upcase: :boolean])
-
-    {opts, List.to_string(word)}
+    [first | [second | _ ]] = args
+    {first, second}
   end
 
-  defp response(_input) do
-    0
+  defp response({first, second}) do
+    {:ok, chosen_option} = get_player(first)
+    chosen_option
   end
+
+  defp get_player(player_name) do
+    players = %{"fav0" => 0}
+    Map.fetch(players, player_name)
+  end
+
 end
