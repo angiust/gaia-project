@@ -1,4 +1,4 @@
-defmodule GaiaProject.CLI do
+defmodule Play.CLI do
   def main(args \\ []) do
     args
     |> parse_args()
@@ -7,12 +7,12 @@ defmodule GaiaProject.CLI do
   end
 
   defp parse_args(args) do
-    [first | [second | _ ]] = args
-    {first, second}
+    [player_name | [game_filename | _ ]] = args
+    {player_name, game_filename}
   end
 
-  defp response({first, second}) do
-    {:ok, chosen_option} = get_player(first)
+  defp response({player_name, _game_filename}) do
+    {:ok, chosen_option} = get_player(player_name)
     chosen_option
   end
 

@@ -9,7 +9,7 @@ defmodule GaiaProject.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       escript: [
-        main_module: GaiaProject.CLI,
+        main_module: Play.CLI,
         comment: "example",
       ]
     ]
