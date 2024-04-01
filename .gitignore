@@ -24,3 +24,7 @@ gaia_project-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# build artifact
+play
+
