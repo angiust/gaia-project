@@ -11,3 +11,7 @@ output=$($command fav0 game | tail -1)
 # Test error on nonexistent player.
 $command nonexistent_player game 2>/dev/null
 [[ $? -ne 0 ]] || echo 'program play does not return error on nonexistent player' >&2
+
+# Test error on nonexistent game.
+$command fav0 nonexistent_game 2>/dev/null
+[[ $? -ne 0 ]] || echo 'program play does not return error on nonexistent game' >&2
