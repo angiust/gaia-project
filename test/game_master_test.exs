@@ -14,4 +14,5 @@ defmodule TestGame do
   def generate_initial_state, do: nil
   def who_is_next(state, player_names), do: {:game_over, ["player1", "player2"]}
   def legal_moves(state), do: []
+  def next_state(state, player_choose_move), do: nil
 end

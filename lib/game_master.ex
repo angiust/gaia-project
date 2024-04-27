@@ -21,5 +21,6 @@ defmodule GameMaster do
   def next_state(game, state, next_player, players) do
     legal_moves = game.legal_moves(state)
     player_choose_move = Map.fetch!(players, next_player).(state, legal_moves)
+    game.next_state(state, player_choose_move)
   end
 end
