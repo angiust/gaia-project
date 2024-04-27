@@ -7,7 +7,7 @@ defmodule Play.CLI do
   end
 
   defp parse_args(args) do
-    [player_name | [game_filename | _ ]] = args
+    [player_name | [game_filename | _]] = args
     {player_name, game_filename}
   end
 
@@ -20,5 +20,4 @@ defmodule Play.CLI do
     players = %{"fav0" => 0}
     Map.fetch(players, player_name)
   end
-
 end

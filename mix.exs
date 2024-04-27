@@ -10,7 +10,7 @@ defmodule GaiaProject.MixProject do
       deps: deps(),
       escript: [
         main_module: Play.CLI,
-        comment: "example",
+        comment: "example"
       ]
     ]
   end
