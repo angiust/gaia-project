@@ -1,4 +1,4 @@
-defmodule Play.CLI do
+defmodule CLI.Play do
   def main(args \\ []) do
     args
     |> parse_args()

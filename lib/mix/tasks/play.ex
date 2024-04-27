@@ -3,6 +3,6 @@ defmodule Mix.Tasks.Play do
 
   def run(args) do
     IO.inspect(args)
-    Play.CLI.main(args)
+    CLI.Play.main(args)
   end
 end
