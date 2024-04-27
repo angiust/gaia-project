@@ -14,7 +14,9 @@ defmodule TrisGame do
                       for(y <- 0..2, do: [{0, y}, {1, y}, {2, y}]))
                    |> Enum.map(fn triple -> MapSet.new(triple) end)
 
-  @triple_containing_move fn move -> Enum.filter(@winning_triples, fn triple -> move in triple end) end
+  @triple_containing_move fn move ->
+    Enum.filter(@winning_triples, fn triple -> move in triple end)
+  end
 
   @winning_triples_by_position @all_moves
                                |> Enum.map(fn move -> {move, @triple_containing_move.(move)} end)
@@ -22,25 +24,32 @@ defmodule TrisGame do
 
   def who_is_next([], player_names), do: {:ok, "player1"}
 
-  def who_is_next([last_move | other_moves], player_names) do
-    state = [last_move | other_moves]
-    moves_of_current_player = Enum.take_every(state, 2) |> Enum.into(%MapSet{})
+  def who_is_next([last_move | previous_moves], player_names) do
+    if last_player_won?(last_move, previous_moves) do
+      {:game_over, [last_player(previous_moves), next_player(previous_moves)]}
+    else
+      {:ok, next_player(previous_moves)}
+    end
+  end
+
+  defp last_player_won?(last_move, previous_moves) do
+    moves_of_current_player =
+      [last_move | previous_moves]
+      |> Enum.take_every(2)
+      |> Enum.into(%MapSet{})
+
     triples_to_check = Map.fetch!(@winning_triples_by_position, last_move)
 
-    if Enum.any?(triples_to_check, fn triple ->
-         triple_is_realized?(moves_of_current_player, triple)
-       end) do
-      {:game_over, [last_player(state), next_player(state)]}
-    else
-      {:ok, next_player(state)}
-    end
+    Enum.any?(triples_to_check, fn triple ->
+      triple_is_realized?(moves_of_current_player, triple)
+    end)
   end
 
   defp triple_is_realized?(moves_of_current_player, triple),
     do: MapSet.subset?(triple, moves_of_current_player)
 
-  defp next_player(state) when rem(length(state), 2) == 0, do: "player1"
-  defp next_player(state) when rem(length(state), 2) == 1, do: "player2"
-  defp last_player(state) when rem(length(state), 2) == 0, do: "player2"
-  defp last_player(state) when rem(length(state), 2) == 1, do: "player1"
+  defp last_player(previous_moves) when rem(length(previous_moves), 2) == 0, do: "player1"
+  defp last_player(previous_moves) when rem(length(previous_moves), 2) == 1, do: "player2"
+  defp next_player(previous_moves) when rem(length(previous_moves), 2) == 0, do: "player2"
+  defp next_player(previous_moves) when rem(length(previous_moves), 2) == 1, do: "player1"
 end
